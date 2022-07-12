@@ -7,6 +7,7 @@
       <div class="flex flex-col items-center lg:items-start">
         <!-- twitter logo -->
         <i class="fa-brands fa-twitter text-3xl text-primary lg:ml-4 mb-3"></i>
+
         <!-- left side menu icons -->
         <div class="flex flex-col items-start">
           <div
@@ -58,6 +59,7 @@
             <span class="ml-5 text-lg hidden lg:inline-block">더보기</span>
           </div>
         </div>
+
         <!-- tweet button -->
         <div class="w-full lg:pr-3 flex justify-center">
           <button
@@ -68,6 +70,7 @@
           </button>
         </div>
       </div>
+
       <!-- profile button -->
       <div class="lg:pr-3 mb-3">
         <button
@@ -90,6 +93,7 @@
         </div>
       </div>
     </div>
+
     <!-- right main screen -->
     <div class="flex-1"></div>
   </div>
