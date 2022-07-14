@@ -16,42 +16,49 @@
             <i class="fas fa-home fa-fw text-2xl"></i>
             <span class="ml-5 text-lg hidden lg:inline-block">홈</span>
           </div>
+
           <div
             class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full"
           >
             <i class="fas fa-hashtag fa-fw text-2xl"></i>
             <span class="ml-5 text-lg hidden lg:inline-block">탐색하기</span>
           </div>
+
           <div
             class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full"
           >
             <i class="far fa-bell fa-fw text-2xl"></i>
             <span class="ml-5 text-lg hidden lg:inline-block">알림</span>
           </div>
+
           <div
             class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full"
           >
             <i class="far fa-envelope fa-fw text-2xl"></i>
             <span class="ml-5 text-lg hidden lg:inline-block">쪽지</span>
           </div>
+
           <div
             class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full"
           >
             <i class="far fa-bookmark fa-fw text-2xl"></i>
             <span class="ml-5 text-lg hidden lg:inline-block">북마크</span>
           </div>
+
           <div
             class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full"
           >
             <i class="far fa-list-alt fa-fw text-2xl"></i>
             <span class="ml-5 text-lg hidden lg:inline-block">리스트</span>
           </div>
+
           <div
             class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full"
           >
             <i class="far fa-user fa-fw text-2xl"></i>
             <span class="ml-5 text-lg hidden lg:inline-block">프로필</span>
           </div>
+
           <div
             class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full"
           >
@@ -77,14 +84,17 @@
           class="hidden lg:flex mt-3 px-2 py-1 w-full h-12 rounded-full hover:bg-blue-50 items-center"
         >
           <img src="https://picsum.photos/100" class="w-10 h-10 rounded-full" />
+
           <div class="lg:ml-2 hidden lg:block">
             <div class="text-sm font-bold">benkang.com</div>
             <div class="text-xs text-gray-500 text-left">@benkang</div>
           </div>
+
           <i
             class="ml-auto fas fa-ellipsis-h fa-fw text-xs hidden lg:block"
           ></i>
         </button>
+
         <div class="lg:hidden flex justify-center">
           <img
             src="https://picsum.photos/100"
@@ -111,11 +121,13 @@
                 src="http://picsum.photos/200"
                 class="w-10 h-10 rounded-full hover:opacity-80 cursor-pointer"
               />
+
               <div class="ml-2 flex-1 flex flex-col">
                 <textarea
                   placeholder="무슨 일이 일어나고 있나요?"
                   class="w-full text-lg font-bold focus:outline-none mb-3 resize-none"
                 ></textarea>
+
                 <div class="text-right">
                   <button
                     class="bg-primary hover:bg-dark text-sm font-bold text-white px-4 py-1 rounded-full"
