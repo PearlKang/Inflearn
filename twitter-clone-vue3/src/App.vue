@@ -202,8 +202,8 @@
         </div>
 
         <!-- trend section -->
-        <!-- <div class="hidden lg:block lg:w-2/5 px-4 py-2"> -->
-        <div class="w-2/5 px-4 py-2">
+        <div class="hidden lg:block lg:w-2/5 px-4 py-2">
+          <!-- <div class="w-2/5 px-4 py-2"> -->
           <!-- tweet search input section -->
           <div class="relative mb-5">
             <input
