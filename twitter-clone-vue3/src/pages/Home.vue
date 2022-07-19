@@ -1,5 +1,5 @@
 <template>
-  <!-- main part -->
+  <!-- home main part -->
   <div class="flex-1 border-r border-gray-100 overflow-y-auto">
     <div class="flex flex-col">
       <!-- page title -->
