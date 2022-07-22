@@ -1,12 +1,12 @@
 <template>
   <!-- home main part -->
-  <div class="flex-1 border-r border-gray-100 overflow-y-auto">
+  <div class="flex-1 border-r border-color overflow-y-auto">
     <div class="flex flex-col">
       <!-- page title -->
-      <div class="border-b border-gray-100 px-3 py-2 font-bold text-lg">홈</div>
+      <div class="border-b border-color px-3 py-2 font-bold text-lg">홈</div>
 
       <!-- tweeting section -->
-      <div class="flex px-3 py-3 border-b-8 border-gray-100">
+      <div class="flex px-3 py-3 border-b-8 border-color">
         <img
           src="http://picsum.photos/200"
           class="w-10 h-10 rounded-full hover:opacity-80 cursor-pointer"
@@ -30,7 +30,7 @@
 
       <!-- tweets section -->
       <div
-        class="flex px-3 py-3 border-b border-gray-100"
+        class="flex px-3 py-3 border-b border-color"
         v-for="tweet in 10"
         :key="tweet"
       >
@@ -43,9 +43,9 @@
           <!-- tweet title -->
           <div class="text-sm space-x-1">
             <span class="font-bold">T1 LoL</span>
-            <span class="text-gray-500 text-xs">@T1LoL</span>
+            <span class="text-gray text-xs">@T1LoL</span>
             <span class="">·</span>
-            <span class="text-gray-500 text-xs">1시간</span>
+            <span class="text-gray text-xs">1시간</span>
           </div>
 
           <!-- tweet body -->
@@ -58,22 +58,22 @@
 
           <!-- tweet actions -->
           <div class="flex justify-between">
-            <div class="text-gray-500 hover:text-primary">
+            <div class="text-gray hover:text-primary">
               <i class="far fa-comment hover:bg-blue-50 rounded-full p-2"></i>
               <span class="ml-1 text-sm">1</span>
             </div>
 
-            <div class="text-gray-500 hover:text-green-500">
+            <div class="text-gray hover:text-green-500">
               <i class="fas fa-retweet hover:bg-green-50 rounded-full p-2"></i>
               <span class="ml-1 text-sm">2</span>
             </div>
 
-            <div class="text-gray-500 hover:text-red-500">
+            <div class="text-gray hover:text-red-500">
               <i class="far fa-heart hover:bg-red-50 rounded-full p-2"></i>
               <span class="ml-1 text-sm">3</span>
             </div>
 
-            <div class="text-gray-500 hover:text-primary">
+            <div class="text-gray hover:text-primary">
               <i
                 class="far fa-share-square hover:bg-blue-50 rounded-full p-2"
               ></i>

@@ -15,7 +15,7 @@
     <div class="w-full rounded-xl bg-gray-50 flex flex-col">
       <!-- for me setting nav title -->
       <div
-        class="flex items-center justify-between px-3 py-1 border-b border-gray-100"
+        class="flex items-center justify-between px-3 py-1 border-b border-color"
       >
         <span class="text-lg font-bold">나를 위한 트렌드</span>
         <i
@@ -25,17 +25,17 @@
 
       <!-- recommend trend lists -->
       <div
-        class="border-b border-gray-100 hover:bg-gray-100 px-4 py-2 cursor-pointer"
+        class="border-b border-color hover:bg-gray-100 px-4 py-2 cursor-pointer"
         v-for="trend in 3"
         :key="trend"
       >
         <div class="flex">
           <div class="flex-1 flex flex-col">
-            <div class="text-gray-500">대한민국에서 트렌드 중</div>
+            <div class="text-gray">대한민국에서 트렌드 중</div>
             <div class="font-bold text-lg">러블리즈</div>
-            <div class="text-gray-500">3,564 트윗</div>
+            <div class="text-gray">3,564 트윗</div>
           </div>
-          <i class="fas fa-ellipsis-h text-gray-500"></i>
+          <i class="fas fa-ellipsis-h text-gray"></i>
         </div>
       </div>
 
@@ -48,13 +48,13 @@
     <!-- recommend follows -->
     <div class="mt-5 w-full rounded-xl bg-gray-50 flex flex-col">
       <!-- for me setting -->
-      <div class="px-3 py-3 border-b border-gray-100">
+      <div class="px-3 py-3 border-b border-color">
         <span class="text-lg font-bold">팔로우 추천</span>
       </div>
 
       <!-- recommend follow lists -->
       <div
-        class="border-b border-gray-100 hover:bg-gray-100 px-4 py-2 cursor-pointer"
+        class="border-b border-color hover:bg-gray-100 px-4 py-2 cursor-pointer"
         v-for="follow in 3"
         :key="follow"
       >
@@ -66,7 +66,7 @@
 
           <div class="flex-1 flex flex-col">
             <div class="font-bold">윤석열</div>
-            <div class="text-gray-500 text-sm">@pr_korea</div>
+            <div class="text-gray text-sm">@pr_korea</div>
           </div>
           <div class="">
             <button
