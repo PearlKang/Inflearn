@@ -17,7 +17,7 @@
       </div>
 
       <!-- background image -->
-      <div class="bg-gray-300 h-40 relative">
+      <div class="bg-gray-300 h-40 relative flex-none">
         <!-- profile image -->
         <div
           class="w-28 h-28 border-4 border-white bg-gray-100 rounded-full absolute -bottom-14 left-2"
@@ -64,18 +64,23 @@
         <div
           class="py-3 text-gray font-bold text-center w-1/4 hover:bg-blue-50 cursor-pointer hover:text-primary"
         >
-          트윗
+          트윗 및 답글
         </div>
         <div
           class="py-3 text-gray font-bold text-center w-1/4 hover:bg-blue-50 cursor-pointer hover:text-primary"
         >
-          트윗
+          미디어
         </div>
         <div
           class="py-3 text-gray font-bold text-center w-1/4 hover:bg-blue-50 cursor-pointer hover:text-primary"
         >
-          트윗
+          마음에 들어요
         </div>
+      </div>
+
+      <!-- tweets -->
+      <div class="overflow-y-auto">
+        <Tweet v-for="tweet in 10" :key="tweet" />
       </div>
     </div>
 
@@ -86,10 +91,12 @@
 
 <script>
 import Trends from "../components/Trends.vue";
+import Tweet from "../components/Tweet.vue";
 
 export default {
   components: {
     Trends,
+    Tweet,
   },
 };
 </script>
