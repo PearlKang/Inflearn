@@ -115,7 +115,7 @@
 
     <!-- right main section -->
     <div class="flex-1 flex h-screen">
-      <router-view></router-view>
+      <router-view />
     </div>
   </div>
 </template>
