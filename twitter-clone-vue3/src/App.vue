@@ -12,67 +12,15 @@
         <!-- left side menu icons -->
         <div class="flex flex-col items-start">
           <router-link
-            to="/"
+            :to="route.path"
             class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full cursor-pointer"
+            v-for="route in routes"
+            :key="route"
           >
-            <i class="fas fa-home fa-fw text-2xl"></i>
-            <span class="ml-5 text-xl hidden xl:inline-block">홈</span>
-          </router-link>
-
-          <router-link
-            to="/"
-            class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full cursor-pointer"
-          >
-            <i class="fas fa-hashtag fa-fw text-2xl"></i>
-            <span class="ml-5 text-xl hidden xl:inline-block">탐색하기</span>
-          </router-link>
-
-          <router-link
-            to="/notifications"
-            class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full cursor-pointer"
-          >
-            <i class="far fa-bell fa-fw text-2xl"></i>
-            <span class="ml-5 text-xl hidden xl:inline-block">알림</span>
-          </router-link>
-
-          <router-link
-            to="/messages"
-            class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full cursor-pointer"
-          >
-            <i class="far fa-envelope fa-fw text-2xl"></i>
-            <span class="ml-5 text-xl hidden xl:inline-block">쪽지</span>
-          </router-link>
-
-          <router-link
-            to="/"
-            class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full cursor-pointer"
-          >
-            <i class="far fa-bookmark fa-fw text-2xl"></i>
-            <span class="ml-5 text-xl hidden xl:inline-block">북마크</span>
-          </router-link>
-
-          <router-link
-            to="/"
-            class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full cursor-pointer"
-          >
-            <i class="far fa-list-alt fa-fw text-2xl"></i>
-            <span class="ml-5 text-xl hidden xl:inline-block">리스트</span>
-          </router-link>
-
-          <router-link
-            to="/profile"
-            class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full cursor-pointer"
-          >
-            <i class="far fa-user fa-fw text-2xl"></i>
-            <span class="ml-5 text-xl hidden xl:inline-block">프로필</span>
-          </router-link>
-
-          <router-link
-            to="/"
-            class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full cursor-pointer"
-          >
-            <i class="fas fa-ellipsis-h fa-fw text-2xl"></i>
-            <span class="ml-5 text-xl hidden xl:inline-block">더보기</span>
+            <i :class="route.icon"></i>
+            <span class="ml-5 text-xl hidden xl:inline-block">
+              {{ route.title }}
+            </span>
           </router-link>
         </div>
 
@@ -121,7 +69,20 @@
 </template>
 
 <script>
-export default {};
+import { ref, onBeforeMount } from "vue";
+import router from "./router";
+
+export default {
+  setup() {
+    const routes = ref([]);
+
+    onBeforeMount(() => {
+      routes.value = router.options.routes;
+    });
+
+    return { routes };
+  },
+};
 </script>
 
 <style></style>
