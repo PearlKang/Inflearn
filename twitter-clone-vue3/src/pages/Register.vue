@@ -7,20 +7,20 @@
     ></i>
     <span class="text-2xl font-bold">뜨위떠 회원가입</span>
     <input
-      v-model="email"
-      type="text"
-      class="rounded w-96 px-4 py-3 border border-gray-300 focus:ring-2 focus:border-primary focus:outline-none"
-      placeholder="이메일"
-    />
-    <input
       v-model="username"
       type="text"
       class="rounded w-96 px-4 py-3 border border-gray-300 focus:ring-2 focus:border-primary focus:outline-none"
       placeholder="아이디"
     />
     <input
-      v-model="password"
+      v-model="email"
       type="text"
+      class="rounded w-96 px-4 py-3 border border-gray-300 focus:ring-2 focus:border-primary focus:outline-none"
+      placeholder="이메일"
+    />
+    <input
+      v-model="password"
+      type="password"
       class="rounded w-96 px-4 py-3 border border-gray-300 focus:ring-2 focus:border-primary focus:outline-none"
       placeholder="비밀번호"
     />
@@ -38,21 +38,31 @@
 
 <script>
 import { ref } from "vue";
+import { auth } from "../firebase";
 
 export default {
   setup() {
-    const email = ref("");
     const username = ref();
+    const email = ref("");
     const password = ref();
     const loading = ref(false);
 
-    const onRegister = () => {
-      console.log(email.value, username.value, password.value);
+    const onRegister = async () => {
+      try {
+        const credential = await auth.createUserWithEmailAndPassword(
+          email.value,
+          password.value
+        );
+        console.log(credential);
+      } catch (e) {
+        console.log("create user with email and password error: ", e);
+        alert(e.message);
+      }
     };
 
     return {
-      email,
       username,
+      email,
       password,
       loading,
       onRegister,
