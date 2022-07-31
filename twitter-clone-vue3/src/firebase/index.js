@@ -1,6 +1,5 @@
 import firebase from "firebase";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDZeTsBp5RgIGj_rc7gMYGzc--YbTOC7ZQ",
   authDomain: "twitter-clone-inflearn-6f0eb.firebaseapp.com",
@@ -14,5 +13,5 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
-export const db = firebase.firebase();
+export const db = firebase.firestore();
 export const storage = firebase.storage();
