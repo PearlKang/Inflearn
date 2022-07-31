@@ -54,6 +54,7 @@ export default {
           password.value
         );
         console.log(credential);
+        alert(e.message);
       } catch (e) {
         console.log("create user with email and password error: ", e);
         alert(e.message);
