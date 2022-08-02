@@ -53,6 +53,7 @@ export default {
           email.value,
           password.value
         );
+
         console.log(credential);
         alert(e.message);
       } catch (e) {
