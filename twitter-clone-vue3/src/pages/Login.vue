@@ -36,7 +36,7 @@ import { ref } from "vue";
 export default {
   setup() {
     const email = ref("");
-    const password = ref();
+    const password = ref("");
     const loading = ref(false);
 
     const onLogin = () => {

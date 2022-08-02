@@ -24,7 +24,11 @@
       class="rounded w-96 px-4 py-3 border border-gray-300 focus:ring-2 focus:border-primary focus:outline-none"
       placeholder="비밀번호"
     />
+    <button v-if="loading" class="w-96 rounded bg-light text-white py-3">
+      회원가입 중입니다.
+    </button>
     <button
+      v-else
       class="w-96 rounded bg-primary text-white py-3 hover:bg-dark"
       @click="onRegister"
     >
@@ -38,27 +42,45 @@
 
 <script>
 import { ref } from "vue";
-import { auth } from "../firebase";
+import { auth, USER_COLLECTION } from "../firebase";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
-    const username = ref();
+    const username = ref("");
     const email = ref("");
-    const password = ref();
+    const password = ref("");
     const loading = ref(false);
+    const router = useRouter();
 
     const onRegister = async () => {
       try {
-        const credential = await auth.createUserWithEmailAndPassword(
+        loading.value = true;
+
+        const { user } = await auth.createUserWithEmailAndPassword(
           email.value,
           password.value
         );
+        const doc = USER_COLLECTION.doc(user.uid);
 
-        console.log(credential);
-        alert(e.message);
+        await doc.set({
+          uid: user.uid,
+          email: email.value,
+          profile_image: "/profile.jpeg",
+          num_tweets: 0,
+          followers: [],
+          followings: [],
+          created_at: Date.now(),
+        });
+
+        alert("회원 가입에 성공하셨습니다. 로그인 해주세요.");
+
+        router.push("/login");
       } catch (e) {
         console.log("create user with email and password error: ", e);
         alert(e.message);
+      } finally {
+        loading.value = false;
       }
     };
 
