@@ -14,15 +14,20 @@
     />
     <input
       v-model="password"
-      type="text"
+      type="password"
       class="rounded w-96 px-4 py-3 border border-gray-300 focus:ring-2 focus:border-primary focus:outline-none"
       placeholder="비밀번호"
+      @keyup.enter="onLogin"
     />
+    <button v-if="loading" class="w-96 rounded bg-light text-white py-3">
+      로그인 중입니다.
+    </button>
     <button
+      v-else
       class="w-96 rounded bg-primary text-white py-3 hover:bg-dark"
       @click="onLogin"
     >
-      회원가입
+      로그인
     </button>
     <router-link to="/register">
       <button class="text-primary">계정이 없으신가요? 회원가입 하기</button>
@@ -32,15 +37,46 @@
 
 <script>
 import { ref } from "vue";
+import { auth } from "../firebase";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
     const email = ref("");
     const password = ref("");
     const loading = ref(false);
+    const router = useRouter();
 
-    const onLogin = () => {
-      console.log(email.value, password.value);
+    const onLogin = async () => {
+      try {
+        loading.value = true;
+
+        const { user } = await auth.signInWithEmailAndPassword(
+          email.value,
+          password.value
+        );
+
+        console.log(user.uid);
+
+        router.replace("/");
+      } catch (e) {
+        switch (e.code) {
+          case "auth/invalid-email":
+            alert("잘못된 이메일 형식입니다.");
+            break;
+          case "auth/wrong-password":
+            alert("비밀번호가 틀립니다.");
+            break;
+          case "auth/user-not-found":
+            alert("등록되지 않은 이메일입니다.");
+            break;
+          default:
+            alert(e.message);
+            break;
+        }
+      } finally {
+        loading.value = false;
+      }
     };
 
     return {

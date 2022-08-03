@@ -23,6 +23,7 @@
       type="password"
       class="rounded w-96 px-4 py-3 border border-gray-300 focus:ring-2 focus:border-primary focus:outline-none"
       placeholder="비밀번호"
+      @keyup.enter="onRegister"
     />
     <button v-if="loading" class="w-96 rounded bg-light text-white py-3">
       회원가입 중입니다.
