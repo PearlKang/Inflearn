@@ -48,6 +48,11 @@ export default {
     const router = useRouter();
 
     const onLogin = async () => {
+      if (!email.value || !password.value) {
+        alert("이메일, 비밀번호를 모두 입력해주세요.");
+        return;
+      }
+
       try {
         loading.value = true;
 
@@ -72,6 +77,7 @@ export default {
             break;
           default:
             alert(e.message);
+            console.log("error: ", e);
             break;
         }
       } finally {
