@@ -36,9 +36,10 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import { auth } from "../firebase";
+import { ref, onMounted } from "vue";
+import { auth, USER_COLLECTION } from "../firebase";
 import { useRouter } from "vue-router";
+import store from "../store";
 
 export default {
   setup() {
@@ -46,6 +47,10 @@ export default {
     const password = ref("");
     const loading = ref(false);
     const router = useRouter();
+
+    onMounted(() => {
+      console.log(store.state.user);
+    });
 
     const onLogin = async () => {
       if (!email.value || !password.value) {
@@ -61,7 +66,9 @@ export default {
           password.value
         );
 
-        console.log(user.uid);
+        // get user info
+        const doc = await USER_COLLECTION.doc(user.uid).get();
+        store.commit("SET_USER", doc.data());
 
         router.replace("/");
       } catch (e) {

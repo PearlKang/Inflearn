@@ -81,4 +81,11 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((from, to, next) => {
+  // not authenticated
+  // router.push("/login");
+  // authenticated
+  next();
+});
+
 export default router;
