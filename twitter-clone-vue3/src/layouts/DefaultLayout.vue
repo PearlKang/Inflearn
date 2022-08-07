@@ -13,7 +13,9 @@
         <div class="flex flex-col items-start">
           <router-link
             :to="route.path"
-            class="hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full cursor-pointer"
+            :class="`hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full cursor-pointer ${
+              router.currentRoute.value.name == route.name ? 'text-primary' : ''
+            }`"
             v-for="route in routes"
             :key="route"
           >
@@ -42,11 +44,16 @@
         <button
           class="hidden xl:flex mt-3 px-2 py-1 w-full h-12 rounded-full hover:bg-blue-50 items-center"
         >
-          <img src="https://picsum.photos/100" class="w-10 h-10 rounded-full" />
+          <img
+            :src="currentUser.profile_image_url"
+            class="w-10 h-10 rounded-full"
+          />
 
           <div class="xl:ml-2 hidden xl:block">
-            <div class="text-sm font-bold">benkang.com</div>
-            <div class="text-xs text-gray text-left">@benkang</div>
+            <div class="text-sm font-bold">{{ currentUser.email }}</div>
+            <div class="text-xs text-gray text-left">
+              @{{ currentUser.username }}
+            </div>
           </div>
 
           <i
@@ -56,7 +63,7 @@
 
         <div class="xl:hidden flex justify-center">
           <img
-            src="https://picsum.photos/100"
+            :src="currentUser.profile_image_url"
             class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80"
           />
         </div>
@@ -77,10 +84,15 @@
       <button
         class="hover:bg-gray-50 border-b border-gray-100 flex p-3 w-full items-center"
       >
-        <img src="http://picsum.photos/200" class="w-10 h-10 rounded-full" />
+        <img
+          :src="currentUser.profile_image_url"
+          class="w-10 h-10 rounded-full"
+        />
         <div class="ml-2">
-          <div class="font-bold text-sm">benkang.com</div>
-          <div class="text-left text-gray-500 text-sm">@benkang</div>
+          <div class="font-bold text-sm">{{ currentUser.email }}</div>
+          <div class="text-left text-gray-500 text-sm">
+            @{{ currentUser.username }}
+          </div>
         </div>
         <i class="fas fa-check text-primary ml-auto"></i>
       </button>
@@ -88,14 +100,14 @@
         class="p-3 hover:bg-gray-50 w-full text-left text-sm"
         @click="onLogout"
       >
-        @benkang 계정에서 로그아웃
+        @{{ currentUser.username }} 계정에서 로그아웃
       </button>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, computed } from "vue";
 import router from "../router";
 import { auth } from "../firebase";
 import store from "../store";
@@ -104,6 +116,8 @@ export default {
   setup() {
     const routes = ref([]);
     const showProfileDropdown = ref(false);
+
+    const currentUser = computed(() => store.state.user);
 
     const onLogout = async () => {
       await auth.signOut();
@@ -115,7 +129,7 @@ export default {
       routes.value = router.options.routes;
     });
 
-    return { routes, showProfileDropdown, onLogout };
+    return { routes, showProfileDropdown, onLogout, currentUser, router };
   },
 };
 </script>
