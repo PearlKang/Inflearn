@@ -14,7 +14,9 @@
           <router-link
             :to="route.path"
             :class="`hover:text-primary hover:bg-blue-50 px-4 py-2 rounded-full cursor-pointer ${
-              router.currentRoute.value.name == route.name ? 'text-primary' : ''
+              router.currentRoute.value.name === route.name
+                ? 'text-primary'
+                : ''
             }`"
             v-for="route in routes"
             :key="route"
