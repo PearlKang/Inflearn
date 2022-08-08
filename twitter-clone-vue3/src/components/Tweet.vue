@@ -3,7 +3,7 @@
     class="flex px-3 py-3 border-b border-color hover:bg-gray-50 cursor-pointer"
   >
     <img
-      src="http://picsum.photos/200"
+      :src="currentUser.profile_image_url"
       class="w-10 h-10 rounded-full hover:opacity-80 cursor-pointer"
     />
 
@@ -49,7 +49,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["currentUser"],
+};
 </script>
 
 <style></style>
