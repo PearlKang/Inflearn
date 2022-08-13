@@ -54,6 +54,7 @@
     </div>
   </div>
   <comment-modal
+    :tweet="tweet"
     v-if="showCommentModal"
     @close-modal="showCommentModal = false"
   ></comment-modal>

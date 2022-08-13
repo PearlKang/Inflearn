@@ -47,7 +47,7 @@
           <div class="flex px-4 pt-4 pb-3">
             <div class="flex flex-col">
               <img
-                :src="currentUser.profile_image_url"
+                :src="tweet.profile_image_url"
                 class="w-10 h-10 rounded-full hover:opacity-80 cursor-pointer"
               />
               <div class="ml-5 w-0.5 h-full bg-gray-300 mt-2 -mb-1"></div>
@@ -55,19 +55,19 @@
 
             <div class="ml-2 flex-1">
               <div class="flex space-x-2">
-                <span class="font-bold text-sm">Bernie Sanders</span>
-                <span class="text-gray text-sm">@BernieSanders</span>
-                <span class="text-gray text-sm">1시간</span>
+                <span class="font-bold text-sm">{{ tweet.email }}</span>
+                <span class="text-gray text-sm">@{{ tweet.username }}</span>
+                <span class="text-gray text-sm">{{
+                  moment(tweet.created_at).fromNow()
+                }}</span>
               </div>
 
               <div class="text-sm">
-                Sample Contents Sample Contents Sample Contents Sample Contents
-                Sample Contents Sample Contents Sample Contents Sample Contents
-                Sample Contents Sample Contents Sample Contents Sample Contents
+                {{ tweet.tweet_body }}
               </div>
 
               <div class="space-x-2">
-                <span class="text-primary text-sm">@JoeBiden</span>
+                <span class="text-primary text-sm">@{{ tweet.username }}</span>
                 <span class="text-gray text-sm">님에게 보내는 답글</span>
               </div>
             </div>
@@ -113,10 +113,12 @@
 
 <script>
 import { ref, computed } from "vue";
+import moment from "moment";
 import addTweet from "../utils/addTweet";
 import store from "../store";
 
 export default {
+  props: ["tweet"],
   setup(props, { emit }) {
     const tweetBody = ref("");
     const currentUser = computed(() => store.state.user);
@@ -133,6 +135,7 @@ export default {
 
     return {
       tweetBody,
+      moment,
       onAddTweet,
       currentUser,
     };
