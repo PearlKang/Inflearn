@@ -34,7 +34,7 @@
             </button>
             <button
               v-else
-              @click="onAddTweet"
+              @click="onCommentTweet"
               class="bg-primary hover:bg-dark text-sm font-bold text-white px-4 py-1 rounded-full"
             >
               트윗
@@ -97,7 +97,7 @@
                 </button>
                 <button
                   v-else
-                  @click="onAddTweet"
+                  @click="onCommentTweet"
                   class="bg-primary hover:bg-dark text-sm font-bold text-white px-4 py-1 rounded-full"
                 >
                   답글
@@ -116,6 +116,8 @@ import { ref, computed } from "vue";
 import moment from "moment";
 import addTweet from "../utils/addTweet";
 import store from "../store";
+import { COMMENT_COLLECTION, TWEET_COLLECTION } from "../firebase";
+import firebase from "firebase";
 
 export default {
   props: ["tweet"],
@@ -123,20 +125,32 @@ export default {
     const tweetBody = ref("");
     const currentUser = computed(() => store.state.user);
 
-    const onAddTweet = async () => {
+    const onCommentTweet = async () => {
       try {
-        await addTweet(tweetBody.value, currentUser.value);
-        tweetBody.value = "";
+        const doc = COMMENT_COLLECTION.doc();
+
+        await doc.set({
+          id: doc.id,
+          from_tweet_id: props.tweet.id,
+          comment_tweet_body: tweetBody.value,
+          uid: currentUser.value.uid,
+          created_at: Date.now(),
+        });
+
+        await TWEET_COLLECTION.doc(props.tweet.id).update({
+          num_comments: firebase.firestore.FieldValue.increment(1),
+        });
+
         emit("close-modal");
       } catch (e) {
-        console.log("on add tweet error on homepage: ", e);
+        console.log("on comment tweet error on homepage: ", e);
       }
     };
 
     return {
       tweetBody,
       moment,
-      onAddTweet,
+      onCommentTweet,
       currentUser,
     };
   },
