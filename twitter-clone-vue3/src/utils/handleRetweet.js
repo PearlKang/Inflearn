@@ -4,18 +4,38 @@ import firebase from "firebase";
 
 export default async (tweet) => {
   try {
-    const doc = RETWEET_COLLECTION.doc();
+    // Already retweeted
+    if (tweet.isRetweeted) {
+      // Delete retweet doc
+      const snapshot = await RETWEET_COLLECTION.where(
+        "from_tweet_id",
+        "==",
+        tweet.id
+      )
+        .where("uid", "==", store.state.user.uid)
+        .get();
 
-    await doc.set({
-      id: doc.id,
-      from_tweet_id: tweet.id,
-      uid: store.state.user.uid,
-      created_at: Date.now(),
-    });
+      await snapshot.docs[0].ref.delete();
 
-    await TWEET_COLLECTION.doc(tweet.id).update({
-      num_retweets: firebase.firestore.FieldValue.increment(1),
-    });
+      // Decrease retweet number
+      await TWEET_COLLECTION.doc(tweet.id).update({
+        num_retweets: firebase.firestore.FieldValue.increment(-1),
+      });
+    } else {
+      // Not retweeted
+      const doc = RETWEET_COLLECTION.doc();
+
+      await doc.set({
+        id: doc.id,
+        from_tweet_id: tweet.id,
+        uid: store.state.user.uid,
+        created_at: Date.now(),
+      });
+
+      await TWEET_COLLECTION.doc(tweet.id).update({
+        num_retweets: firebase.firestore.FieldValue.increment(1),
+      });
+    }
   } catch (e) {
     console.log("handle retweet error: ", e);
   }
