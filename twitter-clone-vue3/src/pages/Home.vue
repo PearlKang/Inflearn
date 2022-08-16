@@ -75,8 +75,6 @@ export default {
         snapshot.docChanges().forEach(async (change) => {
           let tweet = await getTweetInfo(change.doc.data(), currentUser.value);
 
-          console.log(tweet);
-
           if (change.type === "added") {
             tweets.value.splice(change.newIndex, 0, tweet);
           } else if (change.type === "modified") {

@@ -36,15 +36,20 @@
 
         <!-- retweet button -->
         <div
-          class="text-gray hover:text-green-500"
+          v-if="!tweet.isRetweeted"
+          class="text-gray hover:text-green-400"
           @click="handleRetweet(tweet)"
         >
           <i class="fas fa-retweet hover:bg-green-50 rounded-full p-2"></i>
           <span class="ml-1 text-sm">{{ tweet.num_retweets }}</span>
         </div>
+        <div v-else class="text-green-400" @click="handleRetweet(tweet)">
+          <i class="fas fa-retweet hover:bg-green-50 rounded-full p-2"></i>
+          <span class="ml-1 text-sm">{{ tweet.num_retweets }}</span>
+        </div>
 
         <!-- like button -->
-        <div class="text-gray hover:text-red-500">
+        <div class="text-gray hover:text-red-400">
           <i class="far fa-heart hover:bg-red-50 rounded-full p-2"></i>
           <span class="ml-1 text-sm">{{ tweet.num_likes }}</span>
         </div>
