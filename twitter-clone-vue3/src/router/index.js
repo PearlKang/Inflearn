@@ -4,6 +4,7 @@ import Home from "../pages/Home.vue";
 import Messages from "../pages/Messages.vue";
 import Notifications from "../pages/Notifications.vue";
 import Profile from "../pages/Profile.vue";
+import Tweet from "../pages/Tweet.vue";
 import Register from "../pages/Register.vue";
 import Login from "../pages/Login.vue";
 
@@ -71,6 +72,12 @@ const routes = [
     title: "더보기",
     icon: "fas fa-ellipsis-h fa-fw text-2xl",
     meta: { isMenu: true, layout: "DefaultLayout", requireAuth: true },
+  },
+  {
+    path: "/tweet/:id",
+    name: "tweet",
+    component: Tweet,
+    meta: { isMenu: false, layout: "DefaultLayout", requireAuth: true },
   },
   {
     path: "/register",
