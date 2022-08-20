@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1 flex">
     <div class="flex-1 border-r border-gray-100">
-      <div class="flex flex-col">
+      <div class="flex flex-col" v-if="tweet">
         <!-- tilte -->
         <div class="flex items-center px-3 py-2 border-b border-gray-100">
           <button @click="router.go(-1)">
@@ -20,27 +20,29 @@
             class="w-10 h-10 rounded-full hover:opacity-90 cursor-pointer"
           />
           <div class="ml-2">
-            <div class="font-bold">이메일</div>
-            <div class="text-gray text-sm">아이디</div>
+            <div class="font-bold">{{ tweet.email }}</div>
+            <div class="text-gray text-sm">@{{ tweet.username }}</div>
           </div>
         </div>
 
         <!-- contents -->
         <div class="px-3 py-2">
-          temp text temp text temp text temp text temp text temp text
+          {{ tweet.tweet_body }}
         </div>
 
         <!-- date -->
-        <div class="px-3 py-2 text-gray text-xs">날짜</div>
+        <div class="px-3 py-2 text-gray text-xs">
+          {{ moment(tweet.created_at).fromNow() }}
+        </div>
 
         <!-- boundary -->
         <div class="h-px w-full bg-gray-100"></div>
 
         <!-- status -->
         <div class="flex space-x-2 px-3 py-2 items-center">
-          <span class="">1</span>
+          <span class="">{{ tweet.num_retweets }}</span>
           <span class="text-sm text-gray">리트윗</span>
-          <span class="ml-5">1</span>
+          <span class="ml-5">{{ tweet.num_likes }}</span>
           <span class="text-sm text-gray">마음에 들어요</span>
         </div>
 
@@ -103,14 +105,37 @@
 <script>
 import Trends from "../components/Trends.vue";
 import router from "../router";
+import { ref, onBeforeMount, computed } from "vue";
+import store from "../store";
+import { TWEET_COLLECTION } from "../firebase";
+import { useRoute } from "vue-router";
+import getTweetInfo from "../utils/getTweetInfo";
+import moment from "moment";
 
 export default {
   components: {
     Trends,
   },
   setup() {
+    const tweet = ref(null);
+    const comments = ref([]);
+    const currentUser = computed(() => store.state.user);
+    const route = useRoute();
+
+    onBeforeMount(async () => {
+      await TWEET_COLLECTION.doc(route.params.id).onSnapshot(async (doc) => {
+        const t = await getTweetInfo(doc.data(), currentUser.value);
+
+        tweet.value = t;
+      });
+    });
+
     return {
       router,
+      tweet,
+      comments,
+      currentUser,
+      moment,
     };
   },
 };
