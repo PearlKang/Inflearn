@@ -9,7 +9,6 @@
             class="fas fa-arrow-left text-primary p-3 rounded-full hover:bg-blue-50"
           ></i>
         </button>
-
         <div class="">
           <div class="font-extrabold text-lg">benkang.com</div>
           <div class="text-xs text-gray">393 트윗</div>
