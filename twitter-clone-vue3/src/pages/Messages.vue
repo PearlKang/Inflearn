@@ -85,7 +85,7 @@
         </div>
 
         <!-- chat bubble -->
-        <div class="flex-1 overflow-y-auto">
+        <div class="flex-1 overflow-y-scroll">
           <!-- chat bubble : my chat-->
           <div class="text-right px-3 py-3">
             <span class="bg-primary text-white px-4 py-2 rounded-full">
