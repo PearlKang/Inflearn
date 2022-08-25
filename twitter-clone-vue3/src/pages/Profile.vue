@@ -1,17 +1,17 @@
 <template>
-  <div class="flex-1 flex">
+  <div class="flex-1 flex" v-if="profileUser">
     <!-- profile section -->
     <div class="flex-1 flex flex-col border-r border-color">
       <!-- title -->
       <div class="px-3 py-1 flex border-b border-color">
-        <button class="mr-4">
+        <button class="mr-4" @click="router.go(-1)">
           <i
             class="fas fa-arrow-left text-primary p-3 rounded-full hover:bg-blue-50"
           ></i>
         </button>
         <div>
-          <div class="font-extrabold text-lg">{{ currentUser.email }}</div>
-          <div class="text-xs text-gray">{{ currentUser.num_tweets }} 트윗</div>
+          <div class="font-extrabold text-lg">{{ profileUser.email }}</div>
+          <div class="text-xs text-gray">{{ profileUser.num_tweets }} 트윗</div>
         </div>
       </div>
 
@@ -22,7 +22,7 @@
           class="w-28 h-28 border-4 border-white bg-gray-100 rounded-full absolute -bottom-14 left-2"
         >
           <img
-            :src="currentUser.profile_image_url"
+            :src="profileUser.profile_image_url"
             class="rounded-full opacity-90 hover:opacity-100 cursor-pointer"
           />
         </div>
@@ -39,20 +39,20 @@
 
       <!-- user info -->
       <div class="mx-3 mt-2">
-        <div class="font-extrabold text-lg">{{ currentUser.email }}</div>
-        <div class="text-gray">@{{ currentUser.username }}</div>
+        <div class="font-extrabold text-lg">{{ profileUser.email }}</div>
+        <div class="text-gray">@{{ profileUser.username }}</div>
         <div>
           <span class="text-gray">가입일:</span>
           <span class="text-gray">{{
-            moment(currentUser.created_at).format("YYYY년 MM월")
+            moment(profileUser.created_at).format("YYYY년 MM월")
           }}</span>
         </div>
         <div>
           <span class="font-bold mr-1">{{
-            currentUser.followings.length
+            profileUser.followings.length
           }}</span>
           <span class="text-gray mr-3">팔로우 중</span>
-          <span class="font-bold mr-1">{{ currentUser.followers.length }}</span>
+          <span class="font-bold mr-1">{{ profileUser.followers.length }}</span>
           <span class="text-gray">팔로워</span>
         </div>
       </div>
@@ -124,6 +124,8 @@ import {
 } from "../firebase";
 import getTweetInfo from "../utils/getTweetInfo";
 import moment from "moment";
+import { useRoute } from "vue-router";
+import router from "../router";
 
 export default {
   components: {
@@ -132,17 +134,21 @@ export default {
   },
   setup() {
     const currentUser = computed(() => store.state.user);
+    const profileUser = ref(null);
     const tweets = ref([]);
     const reTweets = ref([]);
     const likeTweets = ref([]);
     const currentTab = ref("tweet");
+    const route = useRoute();
 
     onBeforeMount(() => {
-      USER_COLLECTION.doc(currentUser.value.uid).onSnapshot((doc) => {
-        store.commit("SET_USER", doc.data());
+      const profileUID = route.params.uid ?? currentUser.value.uid;
+
+      USER_COLLECTION.doc(profileUID).onSnapshot((doc) => {
+        profileUser.value = doc.data();
       });
 
-      TWEET_COLLECTION.where("uid", "==", currentUser.value.uid)
+      TWEET_COLLECTION.where("uid", "==", profileUID)
         .orderBy("created_at", "desc")
         .onSnapshot((snapshot) => {
           snapshot.docChanges().forEach(async (change) => {
@@ -161,7 +167,7 @@ export default {
           });
         });
 
-      RETWEET_COLLECTION.where("uid", "==", currentUser.value.uid)
+      RETWEET_COLLECTION.where("uid", "==", profileUID)
         .orderBy("created_at", "desc")
         .onSnapshot((snapshot) => {
           snapshot.docChanges().forEach(async (change) => {
@@ -181,7 +187,7 @@ export default {
           });
         });
 
-      LIKE_COLLECTION.where("uid", "==", currentUser.value.uid)
+      LIKE_COLLECTION.where("uid", "==", profileUID)
         .orderBy("created_at", "desc")
         .onSnapshot((snapshot) => {
           snapshot.docChanges().forEach(async (change) => {
@@ -204,11 +210,13 @@ export default {
 
     return {
       currentUser,
+      profileUser,
       tweets,
       reTweets,
       likeTweets,
       moment,
       currentTab,
+      router,
     };
   },
 };

@@ -66,6 +66,11 @@ const routes = [
     meta: { isMenu: true, layout: "DefaultLayout", requireAuth: true },
   },
   {
+    path: "/profile/:uid",
+    component: Profile,
+    meta: { isMenu: false, layout: "DefaultLayout", requireAuth: true },
+  },
+  {
     path: "/",
     name: "more",
     component: Home,
