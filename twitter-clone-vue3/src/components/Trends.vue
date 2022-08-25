@@ -68,7 +68,7 @@
             <div class="font-bold">윤석열</div>
             <div class="text-gray text-sm">@pr_korea</div>
           </div>
-          <div class="">
+          <div>
             <button
               class="border-2 border-primary hover:bg-blue-100 px-2 py-1 rounded-full text-primary text-sm"
             >

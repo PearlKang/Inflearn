@@ -42,7 +42,7 @@
           </div>
         </div>
 
-        <div class="">
+        <div>
           <!-- original tweet -->
           <div class="flex px-4 pt-4 pb-3">
             <div class="flex flex-col">

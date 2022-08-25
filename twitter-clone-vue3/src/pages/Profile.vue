@@ -9,7 +9,7 @@
             class="fas fa-arrow-left text-primary p-3 rounded-full hover:bg-blue-50"
           ></i>
         </button>
-        <div class="">
+        <div>
           <div class="font-extrabold text-lg">{{ currentUser.email }}</div>
           <div class="text-xs text-gray">{{ currentUser.num_tweets }} 트윗</div>
         </div>
@@ -41,13 +41,13 @@
       <div class="mx-3 mt-2">
         <div class="font-extrabold text-lg">{{ currentUser.email }}</div>
         <div class="text-gray">@{{ currentUser.username }}</div>
-        <div class="">
+        <div>
           <span class="text-gray">가입일:</span>
           <span class="text-gray">{{
             moment(currentUser.created_at).format("YYYY년 MM월")
           }}</span>
         </div>
-        <div class="">
+        <div>
           <span class="font-bold mr-1">{{
             currentUser.followings.length
           }}</span>

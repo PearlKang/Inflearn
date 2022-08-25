@@ -40,7 +40,7 @@
 
         <!-- status -->
         <div class="flex space-x-2 px-3 py-2 items-center">
-          <span class="">{{ tweet.num_retweets }}</span>
+          <span>{{ tweet.num_retweets }}</span>
           <span class="text-sm text-gray">리트윗</span>
           <span class="ml-5">{{ tweet.num_likes }}</span>
           <span class="text-sm text-gray">마음에 들어요</span>
@@ -52,14 +52,14 @@
         <!-- icon buttons -->
         <div class="flex justify-around py-2">
           <!-- comment button -->
-          <button class="" @click="showCommentModal = true">
+          <button @click="showCommentModal = true">
             <i
               class="far fa-comment text-gray-400 text-xl hover:bg-blue-50 hover:text-primary p-2 rounded-full h-10 w-10"
             ></i>
           </button>
 
           <!-- retweet button -->
-          <button class="" @click="handleRetweet(tweet)">
+          <button @click="handleRetweet(tweet)">
             <i
               v-if="tweet.isRetweeted"
               class="fas fa-retweet text-xl hover:bg-green-50 text-green-400 p-2 rounded-full h-10 w-10"
@@ -71,7 +71,7 @@
           </button>
 
           <!-- like button -->
-          <button class="" @click="handleLike(tweet)">
+          <button @click="handleLike(tweet)">
             <i
               v-if="tweet.isLiked"
               class="far fa-heart text-xl hover:bg-red-50 text-red-400 p-2 rounded-full h-10 w-10"
@@ -101,12 +101,11 @@
             <div class="flex items-center space-x-2">
               <span class="font-bold">{{ comment.email }}</span>
               <span class="text-gray text-sm">@{{ comment.username }}</span>
-              <span class="">{{ moment(comment.created_at).fromNow() }}</span>
+              <span>{{ moment(comment.created_at).fromNow() }}</span>
             </div>
-            <div class="">{{ comment.comment_tweet_body }}</div>
+            <div>{{ comment.comment_tweet_body }}</div>
           </div>
           <button
-            class=""
             @click="handleDeleteComment(comment)"
             v-if="comment.uid === currentUser.uid"
           >

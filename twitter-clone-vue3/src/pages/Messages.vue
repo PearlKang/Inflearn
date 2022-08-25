@@ -15,7 +15,7 @@
             class="w-10 h-10 rounded-full cursor-pointer mr-2"
           />
 
-          <div class="">
+          <div>
             <div class="flex space-x-1">
               <div class="font-bold">benkang.com</div>
               <div class="text-gray">@benkang</div>
@@ -36,7 +36,7 @@
             class="w-10 h-10 rounded-full cursor-pointer mr-2"
           />
 
-          <div class="">
+          <div>
             <div class="flex space-x-1">
               <div class="font-bold">benkang.com</div>
               <div class="text-gray">@benkang</div>
@@ -58,7 +58,7 @@
             class="w-8 h-8 rounded-full mr-2 cursor-pointer"
           />
 
-          <div class="">
+          <div>
             <div class="font-bold text-lg">benkang.com</div>
             <div class="text-sm text-gray">@benkang</div>
           </div>
@@ -68,17 +68,17 @@
         <div
           class="flex flex-col justify-center items-center border-b border-color hover:bg-gray-50 py-6"
         >
-          <div class="">
+          <div>
             <span class="font-bold mr-1">benkang.com</span>
             <span class="text-gray">@benkang</span>
           </div>
-          <div class="">
+          <div>
             <span class="font-bold mr-1">28</span>
             <span class="text-gray">팔로우 중</span>
             <span class="font-bold ml-3 mr-1">7</span>
             <span class="text-gray">팔로워</span>
           </div>
-          <div class="">
+          <div>
             <span class="text-gray mr-1">가입일:</span>
             <span class="text-gray">2022년 07월</span>
           </div>

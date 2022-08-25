@@ -21,7 +21,7 @@
         ></i>
       </div>
 
-      <div class=""><span class="font-bold">DRX</span> 님의 최근 트윗</div>
+      <div><span class="font-bold">DRX</span> 님의 최근 트윗</div>
       <div class="text-gray">
         Presents from fans at LoL PARK and D’IVE last week!🎁 Thank you for your
         sincere support. (Presents for DRX Pyosik were also delivered.😢) 지난
