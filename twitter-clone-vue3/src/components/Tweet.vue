@@ -14,7 +14,7 @@
       <div class="text-sm space-x-1">
         <span class="font-bold">{{ tweet.email }}</span>
         <span class="text-gray text-xs">@{{ tweet.username }}</span>
-        <span> · </span>
+        <span>·</span>
         <span class="text-gray text-xs">
           {{ moment(tweet.created_at).fromNow() }}
         </span>
