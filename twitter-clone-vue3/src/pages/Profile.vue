@@ -108,6 +108,9 @@
 
     <!-- trends section -->
     <Trends />
+
+    <!-- Profile Edit Modal Button -->
+    <profile-edit-modal></profile-edit-modal>
   </div>
 </template>
 
@@ -126,11 +129,13 @@ import getTweetInfo from "../utils/getTweetInfo";
 import moment from "moment";
 import { useRoute } from "vue-router";
 import router from "../router";
+import ProfileEditModal from "../components/ProfileEditModal.vue";
 
 export default {
   components: {
     Trends,
     Tweet,
+    ProfileEditModal,
   },
   setup() {
     const currentUser = computed(() => store.state.user);
