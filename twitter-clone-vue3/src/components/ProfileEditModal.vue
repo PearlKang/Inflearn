@@ -15,7 +15,7 @@
         aria-modal="true"
         aria-labelledby="modal-headline"
       >
-        <!-- X button sidebar -->
+        <!-- X button sidebar tab -->
         <div
           class="border-b border-gray-100 p-2 flex items-center justify-between"
         >
@@ -28,6 +28,7 @@
           </div>
           <div class="text-right mr-2">
             <button
+              @click="onSaveProfile"
               class="hover:bg-dark bg-primary text-white font-bold px-3 py-1 rounded-full"
             >
               저장
@@ -35,15 +36,16 @@
           </div>
         </div>
 
-        <!-- tweeting section -->
+        <!-- image section -->
         <div class="h-60">
-          <!-- background image -->
+          <!-- top side image -->
           <div
             class="bg-gray-300 h-40 relative flex-none flex items-center justify-center"
           >
+            <!-- background image -->
             <img
               ref="backgroundImage"
-              src="/background.png"
+              :src="currentUser.background_image_url"
               class="object-cover absolute h-full w-full"
             />
             <button
@@ -61,7 +63,7 @@
             <!-- profile image -->
             <img
               ref="profileImage"
-              src="/profile.jpeg"
+              :src="currentUser.profile_image_url"
               class="border-4 border-white w-28 h-28 absolute -bottom-14 left-2 rounded-full"
             />
             <button
@@ -77,6 +79,54 @@
             />
           </div>
         </div>
+
+        <!-- contents section -->
+        <div class="flex flex-col p-2">
+          <!-- name -->
+          <div
+            class="mx-2 my-1 px-2 py-1 border text-gray border-gray-200 rounded hover:border-primary hover:text-primary"
+          >
+            <div class="text-sm">이름</div>
+            <input
+              type="text"
+              :value="currentUser.email"
+              class="text-black focus:outline-none"
+            />
+          </div>
+
+          <!-- introduce -->
+          <div
+            class="mx-2 my-1 px-2 py-5 border text-gray border-gray-200 rounded hover:border-primary hover:text-primary"
+          >
+            <input
+              type="text"
+              placeholder="자기소개"
+              class="text-black focus:outline-none"
+            />
+          </div>
+
+          <!-- location -->
+          <div
+            class="mx-2 my-1 px-2 py-3 border text-gray border-gray-200 rounded hover:border-primary hover:text-primary"
+          >
+            <input
+              type="text"
+              placeholder="위치"
+              class="text-black focus:outline-none"
+            />
+          </div>
+
+          <!-- website -->
+          <div
+            class="mx-2 my-1 px-2 py-3 border text-gray border-gray-200 rounded hover:border-primary hover:text-primary"
+          >
+            <input
+              type="text"
+              placeholder="웹사이트"
+              class="text-black focus:outline-none"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -86,13 +136,17 @@
 import { ref, computed } from "vue";
 import addTweet from "../utils/addTweet";
 import store from "../store";
+import { storage, USER_COLLECTION } from "../firebase";
 
 export default {
   setup(props, { emit }) {
     const tweetBody = ref("");
     const currentUser = computed(() => store.state.user);
+
     const backgroundImage = ref(null);
+    const backgroundImageData = ref(null);
     const profileImage = ref(null);
+    const profileImageData = ref(null);
 
     const onAddTweet = async () => {
       try {
@@ -114,6 +168,9 @@ export default {
 
     const previewBackgroundImage = (event) => {
       const file = event.target.files[0];
+
+      backgroundImageData.value = file;
+
       let reader = new FileReader();
 
       reader.onload = function (event) {
@@ -125,6 +182,9 @@ export default {
 
     const previewProfileImage = (event) => {
       const file = event.target.files[0];
+
+      profileImageData.value = file;
+
       let reader = new FileReader();
 
       reader.onload = function (event) {
@@ -132,6 +192,48 @@ export default {
       };
 
       reader.readAsDataURL(file);
+    };
+
+    const onSaveProfile = async () => {
+      if (!profileImageData.value && !backgroundImageData.value) {
+        return;
+      }
+
+      if (profileImageData.value) {
+        try {
+          const uploadTask = await storage
+            .ref(`profile/${currentUser.value.uid}/profile`)
+            .put(profileImageData.value);
+          const url = await uploadTask.ref.getDownloadURL();
+
+          await USER_COLLECTION.doc(currentUser.value.uid).update({
+            profile_image_url: url,
+          });
+
+          store.commit("SET_PROFILE_IMAGE", url);
+        } catch (e) {
+          console.log(`profile image data error: ${e}`);
+        }
+      }
+
+      if (backgroundImageData.value) {
+        try {
+          const uploadTask = await storage
+            .ref(`profile/${currentUser.value.uid}/background`)
+            .put(backgroundImageData.value);
+          const url = await uploadTask.ref.getDownloadURL();
+
+          await USER_COLLECTION.doc(currentUser.value.uid).update({
+            background_image_url: url,
+          });
+
+          store.commit("SET_BACKGROUND_IMAGE", url);
+        } catch (e) {
+          console.log(`profile image data error: ${e}`);
+        }
+      }
+
+      emit("close-modal");
     };
 
     return {
@@ -144,6 +246,9 @@ export default {
       previewProfileImage,
       backgroundImage,
       profileImage,
+      onSaveProfile,
+      backgroundImageData,
+      profileImageData,
     };
   },
 };

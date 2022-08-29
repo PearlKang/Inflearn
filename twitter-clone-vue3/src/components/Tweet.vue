@@ -1,10 +1,11 @@
 <template>
+  <!-- tweets -->
   <div
     class="flex px-3 py-3 border-b border-color hover:bg-gray-50 cursor-pointer"
   >
     <router-link :to="`/profile/${tweet.uid}`">
       <img
-        :src="currentUser.profile_image_url"
+        :src="tweet.profile_image_url"
         class="w-10 h-10 rounded-full hover:opacity-80 cursor-pointer"
       />
     </router-link>
