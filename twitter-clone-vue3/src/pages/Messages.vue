@@ -154,6 +154,8 @@ export default {
         .get();
 
       snapshot.docs.map((doc) => messages.value.push(doc.data()));
+
+      //
     };
 
     const onSendMessage = async () => {
