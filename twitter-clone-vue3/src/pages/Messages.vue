@@ -30,18 +30,18 @@
     </div>
 
     <!-- chatting -->
-    <div class="w-3/5 border-r border-color">
+    <div class="w-3/5 border-r border-color" v-if="selectedUser">
       <div class="flex flex-col h-screen">
         <!-- title -->
         <div class="flex px-3 h-14 items-center border-b border-color">
           <img
-            src="http://picsum.photos/100"
+            :src="selectedUser.profile_image_url"
             class="w-8 h-8 rounded-full mr-2 cursor-pointer"
           />
 
           <div>
-            <div class="font-bold text-lg">benkang.com</div>
-            <div class="text-sm text-gray">@benkang</div>
+            <div class="font-bold text-lg">{{ selectedUser.email }}</div>
+            <div class="text-sm text-gray">@{{ selectedUser.username }}</div>
           </div>
         </div>
 
@@ -50,41 +50,59 @@
           class="flex flex-col justify-center items-center border-b border-color hover:bg-gray-50 py-6"
         >
           <div>
-            <span class="font-bold mr-1">benkang.com</span>
-            <span class="text-gray">@benkang</span>
+            <span class="font-bold mr-1">{{ selectedUser.email }}</span>
+            <span class="text-gray">@{{ selectedUser.username }}</span>
           </div>
           <div>
-            <span class="font-bold mr-1">28</span>
+            <span class="font-bold mr-1">{{
+              selectedUser.followings.length
+            }}</span>
             <span class="text-gray">팔로우 중</span>
-            <span class="font-bold ml-3 mr-1">7</span>
+            <span class="font-bold ml-3 mr-1">{{
+              selectedUser.followers.length
+            }}</span>
             <span class="text-gray">팔로워</span>
           </div>
           <div>
             <span class="text-gray mr-1">가입일:</span>
-            <span class="text-gray">2022년 07월</span>
+            <span class="text-gray">{{
+              moment(selectedUser.created_at).format("YYYY년 MM월")
+            }}</span>
           </div>
         </div>
 
         <!-- chat bubble -->
         <div class="flex-1 overflow-y-scroll">
-          <!-- chat bubble : my chat-->
-          <div class="text-right px-3 py-3">
-            <span class="bg-primary text-white px-4 py-2 rounded-full">
-              메세지
-            </span>
-            <div class="mt-2 text-xs text-gray">2022년 7월 21일 오전 1:11</div>
-          </div>
+          <div v-for="message in messages" :key="message.id">
+            <!-- chat bubble : my chat-->
+            <div
+              class="text-right px-3 py-3"
+              v-if="currentUser.uid === message.from_uid"
+            >
+              <span class="bg-primary text-white px-4 py-2 rounded-full">
+                {{ message.message_body }}
+              </span>
+              <div class="mt-2 text-xs text-gray">
+                {{ moment(message.created_at).fromNow() }}
+              </div>
+            </div>
 
-          <!-- chat bubble : opponent chat -->
-          <div class="text-left px-3 py-3" v-for="chat in 30" :key="chat">
-            <span class="bg-gray-100 px-4 py-2 rounded-full"> 메세지 </span>
-            <div class="mt-2 text-xs text-gray">2022년 7월 21일 오전 1:11</div>
+            <!-- chat bubble : opponent chat -->
+            <div class="text-left px-3 py-3" v-else>
+              <span class="bg-gray-100 px-4 py-2 rounded-full">
+                {{ message.message_body }}
+              </span>
+              <div class="mt-2 text-xs text-gray">
+                {{ moment(message.created_at).fromNow() }}
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- chat input -->
         <div class="flex items-center bg-white border-t border-color sticky">
           <input
+            @keyup.enter="onSendMessage"
             v-model="messageBody"
             type="text"
             class="m-2 py-1 px-4 rounded-full bg-gray-100 resize-none outline-none flex-1"
@@ -97,6 +115,12 @@
           </button>
         </div>
       </div>
+    </div>
+
+    <!-- select comment -->
+    <div class="w-3/5 border-r border-color m-5" v-else>
+      <div class="font-bold text-lg">선택된 사용자가 없습니다.</div>
+      <div class="text-gray">사용자를 선택해 주세요.</div>
     </div>
   </div>
 </template>
@@ -116,10 +140,7 @@ export default {
     const messages = ref([]);
 
     onBeforeMount(async () => {
-      const snapshot = await USER_COLLECTION.orderBy(
-        "created_at",
-        "desc"
-      ).get();
+      let snapshot = await USER_COLLECTION.orderBy("created_at", "desc").get();
 
       snapshot.docs.forEach((doc) => {
         let user = doc.data();
@@ -133,13 +154,12 @@ export default {
     const onSelectUser = async (user) => {
       selectedUser.value = user;
 
-      const snapshot = await MESSAGE_COLLECTION.where(
+      let snapshot = await MESSAGE_COLLECTION.where(
         "from_uid",
         "==",
         currentUser.value.uid
       )
         .where("to_uid", "==", selectedUser.value.uid)
-        .orderBy("created_at", "desc")
         .get();
 
       messages.value = snapshot.docs.map((doc) => doc.data());
@@ -150,12 +170,13 @@ export default {
         currentUser.value.uid
       )
         .where("from_uid", "==", selectedUser.value.uid)
-        .orderBy("created_at", "desc")
         .get();
 
       snapshot.docs.map((doc) => messages.value.push(doc.data()));
 
-      //
+      messages.value = messages.value.sort((a, b) =>
+        a.created_at > b.created_at ? 0 : -1
+      );
     };
 
     const onSendMessage = async () => {
@@ -185,6 +206,7 @@ export default {
       onSendMessage,
       messageBody,
       messages,
+      selectedUser,
     };
   },
 };
