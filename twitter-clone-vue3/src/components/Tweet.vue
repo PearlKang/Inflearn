@@ -12,13 +12,23 @@
 
     <div class="ml-3 flex-1 flex flex-col space-y-1">
       <!-- tweet title -->
-      <div class="text-sm space-x-1">
-        <span class="font-bold">{{ tweet.email }}</span>
-        <span class="text-gray text-xs">@{{ tweet.username }}</span>
-        <span>·</span>
-        <span class="text-gray text-xs">
-          {{ moment(tweet.created_at).fromNow() }}
-        </span>
+      <div class="text-sm flex justify-between items-center">
+        <div class="space-x-1">
+          <span class="font-bold">{{ tweet.email }}</span>
+          <span class="text-gray text-xs">@{{ tweet.username }}</span>
+          <span>·</span>
+          <span class="text-gray text-xs">
+            {{ moment(tweet.created_at).fromNow() }}
+          </span>
+        </div>
+        <button
+          v-if="currentUser.uid === tweet.uid"
+          @click="onDeleteTweet(tweet)"
+        >
+          <i
+            class="fas fa-trash text-red-400 p-2 rounded-full hover:bg-red-50"
+          ></i>
+        </button>
       </div>
 
       <!-- tweet body -->
@@ -85,6 +95,14 @@ import { ref } from "vue";
 import CommentModal from "./CommentModal.vue";
 import handleRetweet from "../utils/handleRetweet";
 import handleLike from "../utils/handleLike";
+import {
+  COMMENT_COLLECTION,
+  LIKE_COLLECTION,
+  RETWEET_COLLECTION,
+  TWEET_COLLECTION,
+  USER_COLLECTION,
+} from "../firebase";
+import firebase from "firebase";
 
 export default {
   components: {
@@ -94,11 +112,51 @@ export default {
   setup() {
     const showCommentModal = ref(false);
 
+    const onDeleteTweet = async (tweet) => {
+      if (confirm("정말로 트윗을 삭제하시겠습니까?")) {
+        // delete tweet
+        await TWEET_COLLECTION.doc(tweet.id).delete();
+
+        // delete comments
+        const commentSnapshot = await COMMENT_COLLECTION.where(
+          "from_tweet_id",
+          "==",
+          tweet.id
+        ).get();
+
+        commentSnapshot.docs.forEach(async (doc) => await doc.ref.delete());
+
+        // delete likes
+        const likeSnapshot = await LIKE_COLLECTION.where(
+          "from_tweet_id",
+          "==",
+          tweet.id
+        ).get();
+
+        likeSnapshot.docs.forEach(async (doc) => await doc.ref.delete());
+
+        // delete retweets
+        const retweetSnapshot = await RETWEET_COLLECTION.where(
+          "from_tweet_id",
+          "==",
+          tweet.id
+        ).get();
+
+        retweetSnapshot.docs.forEach(async (doc) => await doc.ref.delete());
+
+        // user collection - num_tweets (-1)
+        await USER_COLLECTION.doc(tweet.uid).update({
+          num_tweets: firebase.firestore.FieldValue.increment(-1),
+        });
+      }
+    };
+
     return {
       moment,
       showCommentModal,
       handleRetweet,
       handleLike,
+      onDeleteTweet,
     };
   },
 };
