@@ -65,8 +65,8 @@
           />
 
           <div class="flex-1 flex flex-col">
-            <div class="font-bold">윤석열</div>
-            <div class="text-gray text-sm">@pr_korea</div>
+            <div class="font-bold">아이유</div>
+            <div class="text-gray text-sm">@IU</div>
           </div>
           <div>
             <button
