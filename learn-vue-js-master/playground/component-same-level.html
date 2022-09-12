@@ -7,14 +7,35 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="app">{{str}}</div>
+    <div id="app">
+      <app-header></app-header>
+      <app-content></app-content>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
+      const appHeader = {
+        template: "<div>header</div>",
+      };
+
+      const appContent = {
+        template:
+          "<div>content<button v-on:click='passNum'>pass</button></div>",
+        methods: {
+          passNum: function () {
+            this.$emit("pass", 10);
+          },
+        },
+      };
+
       new Vue({
         el: "#app",
+        components: {
+          "app-header": appHeader,
+          "app-content": appContent,
+        },
         data: {
-          str: "hi",
+          num: 0,
         },
       });
     </script>
