@@ -14,6 +14,9 @@
       <div v-if="loading">Loading...</div>
       <div v-else>test user hash been logged in</div>
       <div v-show="loading">Loading...</div>
+      <!-- TODO: 인풋 박스를 ㅁ나들고 입력된 값을 p 태그에 출력해보세요. -->
+      <input type="text" v-model="message" />
+      <p>{{ message }}</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -25,6 +28,7 @@
           uuid: "abc1234",
           name: "text-blue",
           loading: true,
+          message: "",
         },
         computed: {
           doubleNum: function () {
