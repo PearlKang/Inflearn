@@ -9,12 +9,10 @@
   <body>
     <div id="app">
       <p v-bind:id="uuid" v-bind:class="name">{{ num }}</p>
-      <!-- <p id="abc1234">{{ num }}</p> -->
       <p>{{ doubleNum }}</p>
       <div v-if="loading">Loading...</div>
       <div v-else>test user hash been logged in</div>
       <div v-show="loading">Loading...</div>
-      <!-- TODO: 인풋 박스를 만들고 입력된 값을 p 태그에 출력해보세요. -->
       <input type="text" v-model="message" />
       <p>{{ message }}</p>
     </div>
