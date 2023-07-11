@@ -1,39 +1,56 @@
 import Phaser from "phaser";
-import Config from "../Config";
 
-export default class Player extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene) {
-    // 화면의 가운데에 player를 추가해줍니다.
-    // scene.add.existing : scene에 오브젝트를 추가
-    // scene.physics.add.existing : scene의 물리엔진에 오브젝트를 추가
-    super(scene, Config.width / 2, Config.height / 2, "player");
+export default class Mob extends Phaser.Physics.Arcade.Sprite {
+  constructor(scene, x, y, texture, animKey, initHp, dropRate) {
+    super(scene, x, y, texture);
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    // scale 프로퍼티를 조절해 크기를 조절할 수 있습니다. (디폴트: 1)
+    this.play(animKey);
+    this.setDepth(10);
     this.scale = 2;
 
-    // depth를 조절해 어떤 오브젝트가 앞에 오고 뒤에 올지 설정할 수 있습니다.
-    // CSS의 z-index와 비슷한 개념입니다. (디폴트: 0)
-    this.setDepth(20);
+    this.m_speed = 50;
+    this.m_hp = initHp;
+    this.m_dropRate = dropRate;
 
-    // 해당 오브젝트가 물리적으로 얼만큼의 면적을 차지할 지 설정하는 함수입니다.
-    // 디폴트로 이미지 사이즈로 설정되는데, 그러면 추후 몹을 추가했을 때 너무 잘 부딪히는 느낌이 드므로 원본 이미지보다 약간 작게 설정해주었습니다.
-    // 피격점
-    this.setBodySize(28, 32);
+    if (texture === "mob1") {
+      this.setBodySize(24, 14, false);
+      this.setOffset(0, 14);
+    } else if (texture === "mob2") {
+      this.setBodySize(24, 32);
+    } else if (texture === "mob3") {
+      this.setBodySize(24, 32);
+    } else if (texture === "mob4") {
+      this.setBodySize(24, 32);
+    } else if (texture === "lion") {
+      this.setBodySize(40, 64);
+    }
 
-    this.m_moving = false;
+    this.m_events = [];
+    this.m_events.push(
+      this.scene.time.addEvent({
+        delay: 100,
+        callback: () => {
+          scene.physics.moveToObject(this, scene.m_player, this.m_speed);
+        },
+        loop: true,
+      })
+    );
+
+    // Phaser.Scene에는 update 함수가 있지만
+    // Mob은 Phaser.Physics.Arcade.Sprite를 상속한 클래스로 update 함수가 없기 때문에
+    // Scene의 update가 실행될 때마다 mob도 update 함수가 실행되게 구현해준 부분입니다.
+    // https://newdocs.phaser.io/docs/3.60.0-beta.20/Phaser.Scenes.Events.UPDATE
+    scene.events.on("update", (time, delta) => {
+      this.update(time, delta);
+    });
   }
 
-  move(vector) {
-    // console.log(vector);
+  update() {
+    if (!this.body) return;
 
-    let PLAYER_SPEED = 3;
-
-    this.x += vector[0] * PLAYER_SPEED;
-    this.y += vector[1] * PLAYER_SPEED;
-
-    if (vector[0] === -1) this.flipX = false;
-    else if (vector[0] === 1) this.flipX = true;
+    if (this.x < this.scene.m_player.x) this.flipX = true;
+    else this.flipX = false;
   }
 }
