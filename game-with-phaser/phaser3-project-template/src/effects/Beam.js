@@ -8,7 +8,7 @@ export default class Beam extends Phaser.Physics.Arcade.Sprite {
     this.DURATION = 1500;
 
     scene.add.existing(this);
-    scene.physic.world.enableBody(this);
+    scene.physics.world.enableBody(this);
     scene.m_weaponDynamic.add(this);
     scene.m_beamSound.play();
 
@@ -21,7 +21,7 @@ export default class Beam extends Phaser.Physics.Arcade.Sprite {
     scene.time.addEvent({
       delay: this.DURATION,
       callback: () => {
-        this.destory();
+        this.destroy();
       },
       loop: false,
     });

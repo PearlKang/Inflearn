@@ -4,6 +4,7 @@ import Player from "../characters/Player";
 import Mob from "../characters/Mob";
 import { setBackground } from "../utils/backgroundManager";
 import { addMobEvent } from "../utils/mobManager";
+import { addAttackEvent } from "../utils/attackManager";
 
 export default class PlayingScene extends Phaser.Scene {
   constructor() {
@@ -41,7 +42,7 @@ export default class PlayingScene extends Phaser.Scene {
     // Mob
     // 몹들이 같은 물리법칙을 적용받겠다.
     this.m_mobs = this.physics.add.group();
-    this.m_mobs.add(new Mob(this, 1000, "mob1", "mob1_anim", 10));
+    this.m_mobs.add(new Mob(this, 0, 0, "mob1", "mob1_anim", 10));
     this.m_mobEvents = [];
 
     // scene, repeatGap, mobTexture, mobAnim, mobHp, mobDropRate
@@ -55,7 +56,8 @@ export default class PlayingScene extends Phaser.Scene {
     // Attack
     this.m_weaponDynamic = this.add.group();
     this.m_weaponStatic = this.add.group();
-    this.m_attackEvent = {};
+    this.m_attackEvents = {};
+    // scene, attackType, attackDamage, attackScale, repeatGap
     addAttackEvent(this, "beam", 10, 1, 1000);
   }
 
