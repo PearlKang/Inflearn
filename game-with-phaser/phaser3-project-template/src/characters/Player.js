@@ -48,6 +48,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     // 플레이어가 다친 소리를 재생합니다.
     this.scene.m_hurtSound.play();
+
     // 쿨타임을 갖습니다.
     this.getCooldown();
   }
