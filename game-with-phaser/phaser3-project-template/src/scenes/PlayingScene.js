@@ -103,6 +103,16 @@ export default class PlayingScene extends Phaser.Scene {
       null,
       this
     );
+
+    // item
+    this.m_expUps = this.physics.add.group();
+    this.physics.add.overlap(
+      this.m_player,
+      this.m_expUps,
+      this.pickExpUp,
+      null,
+      this
+    );
   }
 
   update() {
@@ -119,6 +129,19 @@ export default class PlayingScene extends Phaser.Scene {
       this.m_mobs.getChildren()
     );
     this.m_closest = closest;
+  }
+
+  // player와 expUp이 접촉했을 때 실행되는 메소드입니다.
+  pickExpUp(player, expUp) {
+    // expUp을 비활성화하고 화면에 보이지 않게 합니다.
+    expUp.disableBody(true, true);
+    // expUp을 제거합니다.
+    expUp.destroy();
+
+    // 소리를 재생합니다.
+    this.m_expUpSound.play();
+    // 일단 콘솔로 상승한 경험치를 출력합니다.
+    console.log(`경험치 ${expUp.m_exp} 상승!`);
   }
 
   movePlayerManager() {
