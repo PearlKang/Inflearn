@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import Config from "../Config";
 import Player from "../characters/Player";
 import Mob from "../characters/Mob";
+import TopBar from "../ui/TopBar";
+import ExpBar from "../ui/ExpBar";
 import { setBackground } from "../utils/backgroundManager";
 import { addMobEvent } from "../utils/mobManager";
 import { addAttackEvent } from "../utils/attackManager";
@@ -113,6 +115,11 @@ export default class PlayingScene extends Phaser.Scene {
       null,
       this
     );
+
+    // topBar, expBar를 PlayingScene에 추가해줍니다.
+    // 맨 처음 maxExp는 50으로 설정해줍니다.
+    this.m_topBar = new TopBar(this);
+    this.m_expBar = new ExpBar(this, 50);
   }
 
   update() {
