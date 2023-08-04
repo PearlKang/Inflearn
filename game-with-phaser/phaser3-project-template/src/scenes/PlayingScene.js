@@ -148,7 +148,12 @@ export default class PlayingScene extends Phaser.Scene {
     // 소리를 재생합니다.
     this.m_expUpSound.play();
     // 일단 콘솔로 상승한 경험치를 출력합니다.
-    console.log(`경험치 ${expUp.m_exp} 상승!`);
+    // console.log(`경험치 ${expUp.m_exp} 상승!`);
+    this.m_expBar.increase(expUp.m_exp);
+    // 만약 현재 경험치가 maxExp 이상이면 레벨을 증가시켜줍니다.
+    if (this.m_expBar.m_currentExp >= this.m_expBar.m_maxExp) {
+      this.m_topBar.gainLevel();
+    }
   }
 
   movePlayerManager() {
