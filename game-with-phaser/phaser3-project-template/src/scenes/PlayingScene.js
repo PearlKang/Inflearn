@@ -172,7 +172,6 @@ export default class PlayingScene extends Phaser.Scene {
 
   afterLevelUp() {
     this.m_topBar.gainLevel();
-
     // 레벨이 2, 3, 4, ..가 되면 등장하는 몹을 변경해줍니다.
     // 이전 몹 이벤트를 지우지 않으면 난이도가 너무 어려워지기 때문에 이전 몹 이벤트를 지워줍니다.
     // 레벨이 높아질 수록 강하고 아이텝 드랍율이 낮은 몹을 등장시킵니다.
