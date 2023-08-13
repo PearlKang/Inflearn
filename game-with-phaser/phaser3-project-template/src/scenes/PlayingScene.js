@@ -6,7 +6,11 @@ import TopBar from "../ui/TopBar";
 import ExpBar from "../ui/ExpBar";
 import { setBackground } from "../utils/backgroundManager";
 import { addMobEvent, removeOldestMobEvent } from "../utils/mobManager";
-import { addAttackEvent } from "../utils/attackManager";
+import {
+  setAttackScale,
+  setAttackDamage,
+  addAttackEvent,
+} from "../utils/attackManager";
 import { pause } from "../utils/pauseManager";
 
 export default class PlayingScene extends Phaser.Scene {
@@ -60,8 +64,9 @@ export default class PlayingScene extends Phaser.Scene {
     this.m_weaponDynamic = this.add.group();
     this.m_weaponStatic = this.add.group();
     this.m_attackEvents = {};
+    // 맨 처음 추가될 공격은 create 메소드 내에서 추가해줍니다.
     // scene, attackType, attackDamage, attackScale, repeatGap
-    addAttackEvent(this, "beam", 10, 1, 1000);
+    addAttackEvent(this, "claw", 10, 2.3, 1500);
 
     // collisions
     /**
@@ -172,22 +177,36 @@ export default class PlayingScene extends Phaser.Scene {
 
   afterLevelUp() {
     this.m_topBar.gainLevel();
-    // 레벨이 2, 3, 4, ..가 되면 등장하는 몹을 변경해줍니다.
-    // 이전 몹 이벤트를 지우지 않으면 난이도가 너무 어려워지기 때문에 이전 몹 이벤트를 지워줍니다.
-    // 레벨이 높아질 수록 강하고 아이텝 드랍율이 낮은 몹을 등장시킵니다.
-    // repeatGap은 동일하게 설정했지만 레벨이 올라갈수록 더 짧아지도록 조절하셔도 됩니다.
+
     switch (this.m_topBar.m_level) {
       case 2:
         removeOldestMobEvent(this);
         addMobEvent(this, 1000, "mob2", "mob2_anim", 20, 0.8);
+        // claw 공격 크기 확대
+        setAttackScale(this, "claw", 4);
         break;
       case 3:
         removeOldestMobEvent(this);
         addMobEvent(this, 1000, "mob3", "mob3_anim", 30, 0.7);
+        // catnip 공격 추가
+        addAttackEvent(this, "catnip", 10, 2);
         break;
       case 4:
         removeOldestMobEvent(this);
         addMobEvent(this, 1000, "mob4", "mob4_anim", 40, 0.7);
+        // catnip 공격 크기 확대
+        setAttackScale(this, "catnip", 3);
+        break;
+      case 5:
+        // claw 공격 삭제
+        removeAttack(this, "claw");
+        // beam 공격 추가
+        addAttackEvent(this, "beam", 10, 1, 1000);
+        break;
+      case 6:
+        // beam 공격 크기 및 데미지 확대
+        setAttackScale(this, "beam", 2);
+        setAttackDamage(this, "beam", 40);
         break;
     }
   }
