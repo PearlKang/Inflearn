@@ -111,7 +111,8 @@ export default class LoadingScene extends Phaser.Scene {
 
   create() {
     this.add.text(20, 20, "Loading game...");
-    this.scene.start("playGame");
+    // 시작하는 scene의 identifier를 MainScene의 것으로 바꿔줍니다. (playGame -> mainScene)
+    this.scene.start("mainScene");
 
     // MOBS
     this.anims.create({

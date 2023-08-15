@@ -12,6 +12,7 @@ import {
   addAttackEvent,
 } from "../utils/attackManager";
 import { pause } from "../utils/pauseManager";
+import { createTime } from "../utils/time";
 
 export default class PlayingScene extends Phaser.Scene {
   constructor() {
@@ -136,6 +137,10 @@ export default class PlayingScene extends Phaser.Scene {
       },
       this
     );
+
+    // time
+    // 플레이 시간을 생성해줍니다.
+    createTime(this);
   }
 
   update() {
