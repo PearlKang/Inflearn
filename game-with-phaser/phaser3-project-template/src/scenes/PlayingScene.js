@@ -5,7 +5,7 @@ import Mob from "../characters/Mob";
 import TopBar from "../ui/TopBar";
 import ExpBar from "../ui/ExpBar";
 import { setBackground } from "../utils/backgroundManager";
-import { addMobEvent, removeOldestMobEvent } from "../utils/mobManager";
+import { addMob, addMobEvent, removeOldestMobEvent } from "../utils/mobManager";
 import {
   setAttackScale,
   setAttackDamage,
@@ -68,6 +68,9 @@ export default class PlayingScene extends Phaser.Scene {
     // 맨 처음 추가될 공격은 create 메소드 내에서 추가해줍니다.
     // scene, attackType, attackDamage, attackScale, repeatGap
     addAttackEvent(this, "claw", 10, 2.3, 1500);
+
+    // 보스몹이 잘 추가되는지 확인하기 위해 create 메서드 내에서 addMob을 실행시켜봅니다.
+    addMob(this, "lion", "lion_anim", 100, 0);
 
     // collisions
     /**
