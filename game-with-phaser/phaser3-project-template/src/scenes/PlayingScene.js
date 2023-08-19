@@ -70,7 +70,7 @@ export default class PlayingScene extends Phaser.Scene {
     addAttackEvent(this, "claw", 10, 2.3, 1500);
 
     // 보스몹이 잘 추가되는지 확인하기 위해 create 메서드 내에서 addMob을 실행시켜봅니다.
-    addMob(this, "lion", "lion_anim", 100, 0);
+    // addMob(this, "lion", "lion_anim", 100, 0);
 
     // collisions
     /**
@@ -201,9 +201,11 @@ export default class PlayingScene extends Phaser.Scene {
         break;
       case 4:
         removeOldestMobEvent(this);
-        addMobEvent(this, 1000, "mob4", "mob4_anim", 40, 0.7);
+        // mob4의 HP를 수정해주었습니다.
+        addMobEvent(this, 1000, "mob4", "mob4_anim", 30, 0.7);
         // catnip 공격 크기 확대
         setAttackScale(this, "catnip", 3);
+        setBackground(this, "background3");
         break;
       case 5:
         // claw 공격 삭제
@@ -214,7 +216,13 @@ export default class PlayingScene extends Phaser.Scene {
       case 6:
         // beam 공격 크기 및 데미지 확대
         setAttackScale(this, "beam", 2);
-        setAttackDamage(this, "beam", 40);
+        // beam의 데미지를 수정해주었습니다.
+        setAttackDamage(this, "beam", 20);
+        break;
+      case 7:
+        // 보스몹은 레벨 7에 등장시킵니다.
+        addMob(this, "lion", "lion_anim", 200, 0);
+        setBackground(this, "background2");
         break;
     }
   }

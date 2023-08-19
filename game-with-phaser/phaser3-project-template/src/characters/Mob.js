@@ -121,7 +121,8 @@ export default class Mob extends Phaser.Physics.Arcade.Sprite {
     // 1초 후 true로 변경합니다.
     this.m_canBeAttacked = false;
     this.scene.time.addEvent({
-      delay: 1000,
+      // 쿨타임이 너무 길어 살짝 줄여주었습니다.
+      delay: 800,
       callback: () => {
         this.m_canBeAttacked = true;
       },
