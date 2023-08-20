@@ -30,7 +30,7 @@ export default class Claw extends Phaser.Physics.Arcade.Sprite {
 
     // Claw는 DURATION만큼 지속됩니다.
     scene.time.addEvent({
-      delay: Claw.DURATION,
+      delay: this.DURATION,
       callback: () => {
         this.destroy();
       },

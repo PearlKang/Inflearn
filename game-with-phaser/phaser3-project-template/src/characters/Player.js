@@ -45,6 +45,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.x += vector[0] * PLAYER_SPEED;
     this.y += vector[1] * PLAYER_SPEED;
 
+    // 캐릭터 이미지 원본은 왼쪽을 바라보고 있습니다.
+    // flipX 프로퍼티는 boolean 값을 받아 x축 방향으로 뒤집혀있을지 아닐지를 설정합니다.
+    // player가 왼쪽으로 이동할 때는 flipX = false,
+    // player가 오른쪽쪽으로 이동할 때는 flipX = true로 설정해 적절한 방향을 바라보게 해 줍니다.
     if (vector[0] === -1) this.flipX = false;
     else if (vector[0] === 1) this.flipX = true;
   }
