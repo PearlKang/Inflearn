@@ -88,6 +88,8 @@ function doAttackOneSet(scene, attackType, damage, scale) {
         loop: false,
       });
       break;
+    default:
+      break;
   }
 }
 

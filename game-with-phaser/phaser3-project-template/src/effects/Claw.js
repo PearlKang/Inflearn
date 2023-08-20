@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import Player from "../characters/Player";
 
 export default class Claw extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, startingPosition, isHeadingRight, damage, scale) {

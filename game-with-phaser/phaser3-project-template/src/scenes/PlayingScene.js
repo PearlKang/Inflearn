@@ -10,6 +10,7 @@ import {
   setAttackScale,
   setAttackDamage,
   addAttackEvent,
+  removeAttack,
 } from "../utils/attackManager";
 import { pause } from "../utils/pauseManager";
 import { createTime } from "../utils/time";
@@ -209,7 +210,7 @@ export default class PlayingScene extends Phaser.Scene {
         break;
       case 5:
         // claw 공격 삭제
-        removeAttack(this, "claw");
+        // removeAttack(this, "claw");
         // beam 공격 추가
         addAttackEvent(this, "beam", 10, 1, 1000);
         break;
